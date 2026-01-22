@@ -22,7 +22,8 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      process.env.NODE_ENV === "production" ? true : "http://localhost:5173",
     credentials: true,
   }),
 );
@@ -31,7 +32,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.join(__dirname, "../frontend/dist");
+  const frontendPath = path.join(__dirname, "../../frontend/dist");
+
+  console.log("📦 Serving frontend from:", frontendPath);
 
   app.use(express.static(frontendPath));
 
@@ -39,9 +42,3 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(frontendPath, "index.html"));
   });
 }
-
-connectDB().then(() => {
-  server.listen(PORT, () => {
-    console.log("Server running on port " + PORT);
-  });
-});
