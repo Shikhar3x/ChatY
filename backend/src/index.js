@@ -1,6 +1,6 @@
 import express from "express";
 import authRoutes from "./routes/authRoutes.js";
-import messageRoute from "./routes/messageRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 import dotenv from "dotenv";
 import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
@@ -25,7 +25,7 @@ app.use(
 );
 
 app.use("/api/auth", authRoutes);
-app.use("/api/messages", messageRoute);
+app.use("/api/messages", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
